@@ -20,6 +20,7 @@ import ManageSlideOver from '@app/components/ManageSlideOver';
 import MediaSlider from '@app/components/MediaSlider';
 import PersonCard from '@app/components/PersonCard';
 import RequestButton from '@app/components/RequestButton';
+import RequestCommentModal from '@app/components/RequestCommentModal';
 import Slider from '@app/components/Slider';
 import StatusBadge from '@app/components/StatusBadge';
 import useDeepLinks from '@app/hooks/useDeepLinks';
@@ -123,6 +124,7 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
   const minStudios = 3;
   const [showMoreStudios, setShowMoreStudios] = useState(false);
   const [showIssueModal, setShowIssueModal] = useState(false);
+  const [showDeclineCommentModal, setShowDeclineCommentModal] = useState(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const [toggleWatchlist, setToggleWatchlist] = useState<boolean>(
     !movie?.onUserWatchlist
@@ -637,6 +639,20 @@ const MovieDetails = ({ movie }: MovieDetailsProps) => {
             tmdbId={data.id}
             onUpdate={() => revalidate()}
           />
+          <>
+            <RequestCommentModal
+              show={showDeclineCommentModal}
+              mediaInfo={data.mediaInfo}
+              onCancel={() => setShowDeclineCommentModal(false)}
+              type="movie"
+            />
+            <Button
+              onClick={() => setShowDeclineCommentModal(true)}
+              name="Press mee"
+            >
+              Press me
+            </Button>
+          </>
           {(data.mediaInfo?.status === MediaStatus.AVAILABLE ||
             (settings.currentSettings.movie4kEnabled &&
               hasPermission(

@@ -37,7 +37,7 @@ const Trending = () => {
     <>
       <PageTitle title={intl.formatMessage(messages.trending)} />
       <div className="mt-1 mb-5">
-        <Header>{intl.formatMessage(messages.trending)}</Header>
+        <Header>{intl.formatMessage(messages.trending) + ', ma boy'}</Header>
       </div>
       <ListView
         items={titles}
