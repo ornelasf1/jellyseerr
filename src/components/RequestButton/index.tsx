@@ -1,4 +1,5 @@
 import ButtonWithDropdown from '@app/components/Common/ButtonWithDropdown';
+import RequestCommentModal from '@app/components/RequestCommentModal';
 import RequestModal from '@app/components/RequestModal';
 import useSettings from '@app/hooks/useSettings';
 import { Permission, useUser } from '@app/hooks/useUser';
@@ -64,6 +65,7 @@ const RequestButton = ({
   const { user, hasPermission } = useUser();
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [showRequest4kModal, setShowRequest4kModal] = useState(false);
+  const [showDeclineCommentModal, setShowDeclineCommentModal] = useState(false);
   const [editRequest, setEditRequest] = useState(false);
 
   // All pending requests
@@ -164,7 +166,8 @@ const RequestButton = ({
           id: 'decline-request',
           text: intl.formatMessage(messages.declinerequest),
           action: () => {
-            modifyRequest(activeRequest, 'decline');
+            // modifyRequest(activeRequest, 'decline');
+            setShowDeclineCommentModal(true);
           },
           svg: <XMarkIcon />,
         }
@@ -391,6 +394,16 @@ const RequestButton = ({
           setShowRequest4kModal(false);
         }}
         onCancel={() => setShowRequest4kModal(false)}
+      />
+      <RequestCommentModal
+        show={showDeclineCommentModal}
+        mediaInfo={media}
+        type={mediaType}
+        onCancel={() => setShowDeclineCommentModal(false)}
+        onComplete={() => {
+          onUpdate();
+          setShowDeclineCommentModal(false);
+        }}
       />
       <ButtonWithDropdown
         text={
